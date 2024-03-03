@@ -1,0 +1,209 @@
+{% extends 'layout.html' %}
+{% block ourpage %}
+
+<style>
+    /* Existing Custom styles for theme and search bar */
+    .text-primary { color: #007BFF; }
+    .bg-primary { background-color: #007BFF; }
+    .bg-secondary { background-color: #E7F1FF; }
+    .border-primary { border-color: #007BFF; }
+    .hover-bg-primary:hover { background-color: #0056b3; }
+    .text-secondary { color: #6c757d; }
+    .search-container {
+        margin-top: 10px; /* Reduce margin top */
+        margin-left: auto; /* Centering the container */
+        margin-right: auto; /* Centering the container */
+        width: 70%;
+        display: flex;
+        justify-content: center; /* Centering items horizontally */
+        align-items: center;
+    }
+    .search-container form {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .search-container input[type="text"],
+    .search-container input[type="submit"] {
+        padding: 10px;
+        margin-right: 10px;
+        border: 1px solid #007BFF;
+        border-radius: 5px;
+        flex-grow: 1;
+    }
+    .search-container input[type="submit"] {
+        border: none;
+        background-color: #007BFF;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .search-container input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    .last-search {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    /* Adjusted styles for results container */
+    .results-container-wrapper {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .results-container {
+        text-align: left; /* Left-aligns the text inside the container */
+        margin: 0 auto;
+        padding: 20px;
+        max-width: 80%;
+    }
+
+    .results-container p {
+        margin: 5px 0; /* Adjust margin */
+        padding: 0; /* Remove padding */
+    }
+    .results-container ul,
+    .results-container ul li a {
+        margin-bottom: 20px; /* Adds bottom margin for gap between elements */
+    }
+    .additional-info {
+        text-align: left; /* Centers the additional information heading */
+        font-weight: bold; /* Makes the text bold */
+        margin-top: 30px; /* Adds space above the heading */
+        margin-bottom: 20px; /* Adds space below the heading before the list */
+        font-size: 24px;
+    }
+
+    .prompt-container {
+        display: flex; /* Enables flexbox layout */
+        justify-content: space-between; /* Spaces children evenly */
+        align-items: center; /* Aligns items vertically in the center */
+        margin-bottom: 20px; /* Adds some space below the container */
+    }
+
+    .prompt-text {
+        font-weight: bold;
+        font-size: 24px;
+        margin: 0; /* Removes default margin */
+        flex-grow: 1; /* Allows text to fill available space */
+    }
+
+    .prompt-input {
+        padding: 10px;
+        margin-left: 10px;
+        border: 1px solid #007BFF; /* Matching the border color */
+        border-radius: 5px; /* Providing rounded corners */
+        flex-shrink: 0;
+        background-color: #E7F1FF; /* Matching the search box background color */
+        color: #007BFF; /* Text color */
+        font-size: 1rem; /* Adjust font size as necessary */
+    }
+
+    .prompt-input:focus {
+        outline: none;
+        border-color: #0056b3;
+        background-color: #ffffff; /* Lighter color on focus for contrast */
+    }
+
+</style>
+
+<script>
+    function submitSearch(event) 
+    {
+
+        fetch('/process', 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ prompt: prompt })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update the page with the 'answer' from the response
+            document.querySelector(".results-container").innerHTML = `<p>${data.answer}</p>`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Ensure the input field is cleared when the form is focused if it has the placeholder value
+    function clearPlaceholder() 
+    {
+        var inputField = document.getElementById("textPrompt");
+        if (inputField.value === "Search something new...") {
+            inputField.value = "";
+        }
+    }
+
+    function generatePodcast()
+    {
+        fetch('/generate_podcast', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ script: `{{script}}` }) // Send the 'script' variable as part of the request body
+        })
+        .then(response => response.json())
+        .then(data => {
+            var audioPlayer = document.getElementById('podcastPlayer');
+            audioPlayer.src = data.mp3Path;
+            audioPlayer.load();
+            audioPlayer.play();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
+<div class="search-container">
+    <form action="/process" method="POST" onsubmit="submitSearch(event)">
+        <input type="text" id="textPrompt" name="prompt" class="block text-sm text-gray-900 bg-secondary rounded-lg border border-primary cursor-pointer focus:outline-none focus:border-primary" placeholder="Search something..." onfocus="clearPlaceholder()">
+        <input type="submit" value="Search" class="font-bold shadow-md cursor-pointer px-4 py-2 rounded-md bg-primary text-white hover:bg-blue-700">
+    </form>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="generatePodcast()" class="font-bold shadow-md cursor-pointer px-4 py-2 rounded-md bg-primary text-white hover:bg-blue-700">Generate Podcast</button>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <audio id="podcastPlayer" controls>Your browser does not support the audio element.</audio>
+</div>
+
+<div class="results-container-wrapper">
+    <div class="results-container">
+        <div class="prompt-container">
+            <p class="prompt-text">{{ prompt }}</p>
+            <input type="text" class="prompt-input" placeholder="Bias-Adversity">
+        </div>
+        <p>{{ answer }}</p>
+        <div class="additional-info">Sources</div>
+        {% for source in sources %}
+            <div style="margin-bottom: 20px;">
+                <a href="{{ source.url }}" target="_blank" style="font-weight: bold;">{{ source.title }}</a>
+                <p style="color: #007BFF; margin-top: 5px;">Link: <a href="{{ source.url }}" target="_blank">{{ source.url }}</a></p>
+                <p style="color: darkgray; margin-top: 5px;">Bias Score: {{ source.overall_bias_score }}</p>
+                <p style="color: darkgray; margin-top: 5px;">Readability Score: {{ source.overall_readability_score }}</p>
+                <p style="color: darkgray; margin-top: 5px;">Complexity: {{ source.syntactic_complexity }}</p>
+                <p style="color: darkgray; margin-top: 5px;">Sort: {{ source.sortingHeuristic }}</p>
+            </div>
+        {% endfor %}
+        <div class="additional-info">Additional Resources to Explore</div>
+        {% for fake in urls %}
+            <div style="margin-bottom: 20px;">
+                <a href="{{ fake.url }}" target="_blank" style="font-weight: bold;">{{ fake.title }}</a>
+                <p style="color: #007BFF; margin-top: 5px;">Link: <a href="{{ fake.url }}" target="_blank">{{ fake.url }}</a></p>
+                <p style="color: darkgray; margin-top: 5px;">Bias Score: {{ fake.overall_bias_score }}</p>
+                <p style="color: darkgray; margin-top: 5px;">Readability Score: {{ fake.overall_readability_score }}</p>
+                <p style="color: darkgray; margin-top: 5px;">Complexity: {{ fake.syntactic_complexity }}</p>
+                <p style="color: darkgray; margin-top: 5px;">Sort: {{ fake.sortingHeuristic }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

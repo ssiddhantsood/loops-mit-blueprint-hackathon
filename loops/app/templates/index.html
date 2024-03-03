@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block ourpage %}
+  <div id="particles-js" style="background: black; position: absolute; width: 100%; height: 100%; margin-top: -3.5rem;">
+    <canvas class="particles-js-canvas-el" style="width: 100%; height: 100%;"></canvas>
+  </div>
+  <div class="content text-white text-center max-w-screen-md mx-auto mt-40" style="position: relative">
+    <h1 style="z-index: 10" class="text-7xl font-bold mb-8"><span class="text-blue-200">Lo</span>ops</h1>
+    <h3 style="z-index: 10" class="text-2xl font-semibold mb-8">Search anything, unbiased.</h3>
+    <div class="flex font-semibold text-lg space-x-8 justify-center">
+<!--      <a href="/face" class="px-8 py-4 rounded-md bg-blue-200 text-black opacity-80 hover:opacity-100"><p>Facial Paralysis</p></a>-->
+      <a href="/search" class="px-8 py-4 rounded-md bg-blue-200 text-black opacity-80 hover:opacity-100"><p>Get Started</p></a>
+    </div>
+  </div>
+  <div class="mt-56 max-w-screen-xl mx-auto px-12">
+    <!-- <h2 class="text-3xl text-center font-bold">The next revolution in clinical stroke diagnosis is <span class="text-blue-600">here</span>.</h2>
+    <p class="text-lg text-gray-500 max-w-screen-lg mx-auto my-8">A stroke is defined as a neurologic deficit arising from an either interruption or reduction in blood supply to an area of the brain. According to the World Health Organization, over 15 million people suffer from strokes each year, of which 5 million die and 5 million are permanently disabled. Treatment is dependent upon the type, location, and severity of the stroke, and the administration of a medication for the wrong type of stroke can lead to deadly effects. Stroke treatment is highly time-sensitive, but the current standards for diagnosis—CT and MRI—are time-consuming and expensive. Aiming to solve these problems, a novel diagnostic named StrokeSight is implemented as a web application to enable the diagnosis and visualization of ischemic and hemorrhagic strokes in minutes. StrokeSight uses novel deep learning models trained on the power spectral densities (PSDs) of 132, 60-second, electroencephalogram (EEG) recordings. This study proposes three dense neural networks, which are respectively able to predict the type (control/ischemic/hemorrhagic), location (right or left hemisphere), and severity (small or large) with an accuracy of 97.5%, 94.4%, and >99%, and achieved AUCs of 0.99, 0.97, and >0.99. A visualization of the spatial relations of PSDs is displayed on a 2D graph using azimuthal equidistant projection to allow for interpretation of the algorithms and visualization of brain activity. This project suggests that the developed diagnostic framework could act as a rapid and accessible solution and clinically viable replacement for CT and MRI scans for stroke diagnosis.
+
+    </p> -->
+    <p class="text-sm text-center text-gray-600 max-w-screen-lg mx-auto mb-16">Created by <a class="underline" href="https://www.linkedin.com/in/sritan-motati/" target="_blank">Sritan Motati</a>, <a class="underline" href="https://www.linkedin.com/in/siddhant-sood-59ab33201/" target="_blank">Siddhant Sood</a>, and <a class="underline" href="https://www.linkedin.com/in/anant-khandelwal-3797a3285/" target="_blank">Anant Khandelwal</a>.</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    var request = new XMLHttpRequest();
+    request.open("GET","static/js/particles.json", false);
+    request.send(null);
+    var jsonData = JSON.parse(request.responseText);
+    particlesJS('particles-js', jsonData, function(){
+        console.log("particles.json loaded...");
+    });
+  </script>
+{% endblock %}

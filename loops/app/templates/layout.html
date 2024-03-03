@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.min.css" />
+  <style>
+    a, button, input {
+      transition-duration: 150ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body style="font-family: Inter">
+  <nav class='h-14 px-8 py-4 text-md shadow-md font-semibold bg-gray-800 text-white'>
+    <div class="flex space-x-5">
+    <a href="/" class="hover:text-blue-200"><p>Home</p></a>
+    <a href="{{ url_for('generate') }}" class="hover:text-blue-200"><p>Search</p></a>
+    </div>
+  </nav>
+  {% block ourpage %}
+  {% endblock %}
+  <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
+</body>
+</html>

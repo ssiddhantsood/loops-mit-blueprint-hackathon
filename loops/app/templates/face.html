@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% block ourpage %}
+  <h1 class="text-3xl text-center font-bold mt-12">Detect Facial Paralysis</h1>
+  <p class="text-lg text-gray-500 max-w-screen-lg text-center mx-auto mt-4 mb-12">On this page, you can take a picture of you or your patient’s face. This image will be ran through an algorithm built to detect facial paralysis, a cardinal sign of strokes. Expect this test to take up to 45 seconds.</p>
+  <form method="post" action="/uploadface" enctype="multipart/form-data">
+		<div class="max-w-screen-md mx-auto">
+			<div>
+				<label for="img" class="hidden">Image</label>
+      <!-- <input type="file" class="form-control-file" name="img" accept="image/*" id="img"  aria-describedby="fileHelpId"> -->
+			<!-- <small id="fileHelpId" class="form-text text-muted">Select Image</small> -->
+      			<img id='cam' src="{{ url_for('video_feed') }}" class="shadow-md rounded-md">
+				<div id="loading" style="display:none;">
+					<p class="font-semibold text-blue-600 text-center text-2xl">Computing...</p>
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+						<circle cx="75" cy="50" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.9166666666666666s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.9166666666666666s"></animate>
+						</circle><circle cx="71.65063509461098" cy="62.5" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.8333333333333334s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.8333333333333334s"></animate>
+						</circle><circle cx="62.5" cy="71.65063509461096" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.75s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.75s"></animate>
+						</circle><circle cx="50" cy="75" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.6666666666666666s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.6666666666666666s"></animate>
+						</circle><circle cx="37.50000000000001" cy="71.65063509461098" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.5833333333333334s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.5833333333333334s"></animate>
+						</circle><circle cx="28.34936490538903" cy="62.5" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.5s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.5s"></animate>
+						</circle><circle cx="25" cy="50" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.4166666666666667s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.4166666666666667s"></animate>
+						</circle><circle cx="28.34936490538903" cy="37.50000000000001" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.3333333333333333s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.3333333333333333s"></animate>
+						</circle><circle cx="37.499999999999986" cy="28.349364905389038" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.25s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.25s"></animate>
+						</circle><circle cx="49.99999999999999" cy="25" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.16666666666666666s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.16666666666666666s"></animate>
+						</circle><circle cx="62.5" cy="28.349364905389034" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="-0.08333333333333333s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="-0.08333333333333333s"></animate>
+						</circle><circle cx="71.65063509461096" cy="37.499999999999986" fill="#2a3e83" r="5">
+						  <animate attributeName="r" values="3;3;5;3;3" times="0;0.1;0.2;0.3;1" dur="1s" repeatCount="indefinite" begin="0s"></animate>
+						  <animate attributeName="fill" values="#2a3e83;#2a3e83;#151e2f;#2a3e83;#2a3e83" repeatCount="indefinite" times="0;0.1;0.2;0.3;1" dur="1s" begin="0s"></animate>
+						</circle>
+						<!-- [ldio] generated by https://loading.io/ --></svg>
+				</div>
+			</div>
+			<input type="submit" value="Capture" id='sub' class="font-bold shadow-md mb-6 w-full cursor-pointer mt-6 px-8 py-4 rounded-md bg-blue-500 text-white hover:bg-blue-700">
+		</div>
+	</form>
+	<script>
+		let btn = document.querySelector("#sub");
+		let cam = document.querySelector("#cam");
+		btn.addEventListener("click", handle)
+		function handle() {
+			// document.getElementById("sub").disabled = true;
+			document.getElementById("cam").style.display = "none";
+			document.getElementById("loading").style.display = "block";
+		}
+	</script>
+{% endblock %}

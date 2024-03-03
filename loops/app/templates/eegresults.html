@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block ourpage %}
+			<h1 class="text-3xl text-center font-bold mt-12 mb-8">EEG Analysis Results</h1>
+			<p class="text-center mb-4 text-lg text-red-500 font-bold">{{output}}</p>
+			<p class="text-center mb-2 text-md font-bold text-black">Confidence</p>
+			<div class="flex space-x-3 justify-center mb-6">
+				<p>{{type_prob}}</p>
+				<p>{{loc_prob}}</p>
+				<p>{{sev_prob}}</p>
+			</div>
+			<p class="text-center mb-2 text-md font-bold text-black">Visualization (Units = Relative PSD)</p>
+			<div class="flex justify-center">
+				<img class="w-4/12 h-auto" src="{{ url_for('static', filename='delta.png') }}">
+				<img class="w-4/12 h-auto" src="{{ url_for('static', filename='theta.png') }}">
+				<img class="w-4/12 h-auto" src="{{ url_for('static', filename='alpha.png') }}">
+			</div>
+			<div class="flex justify-center">
+				<img class="w-4/12 h-auto" src="{{ url_for('static', filename='beta.png') }}">
+				<img class="w-4/12 h-auto" src="{{ url_for('static', filename='gamma.png') }}">
+			</div>
+{% endblock %}

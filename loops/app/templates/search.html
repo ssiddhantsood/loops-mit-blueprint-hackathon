@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% block ourpage %}
+<style>
+    /* Custom styles for a light blue theme */
+    .text-primary { color: #007BFF; } /* A nice shade of light blue */
+    .bg-primary { background-color: #007BFF; } /* Same light blue for backgrounds */
+    .bg-secondary { background-color: #E7F1FF; } /* A very light blue for secondary backgrounds */
+    .border-primary { border-color: #007BFF; } /* Light blue borders */
+    .hover-bg-primary:hover { background-color: #0056b3; } /* Darker blue on hover for contrast */
+    .text-secondary { color: #6c757d; } /* Soft gray for secondary text */
+
+    /* Centering container */
+    .center-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh; /* Adjusted viewport height */
+    }
+</style>
+
+<script>
+document.getElementById('promptForm').onsubmit = function() {
+    // Save the search prompt to session storage before submitting the form
+    sessionStorage.setItem('lastSearch', document.getElementById('textPrompt').value);
+};
+</script>
+
+<div class="center-container">
+    <div>
+        <h1 class="text-3xl text-center font-bold text-primary">Loops</h1>
+        <p class="text-lg text-secondary max-w-screen-lg text-center mx-auto mt-2 mb-8">Ask a question about what you want to learn about.</p>
+
+        <!-- Updated form to submit to the /process route -->
+        <form id="promptForm" action="/process" method="post">
+            <div class="max-w-screen-md mx-auto">
+                <div id="eegform">
+                    <input type="text" id="textPrompt" name="prompt" class="block w-full text-sm text-gray-900 bg-secondary rounded-lg border border-primary cursor-pointer focus:outline-none focus:border-primary">
+                </div>
+                <input type="submit" value="Search" class="font-bold shadow-md mb-6 w-full cursor-pointer mt-4 px-8 py-4 rounded-md bg-primary text-white hover-bg-primary">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
